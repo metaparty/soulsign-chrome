@@ -48,6 +48,22 @@ self.addEventListener("fetch", function(event) {
 	if (idx >= 0) url = url.slice(0, idx);
 	req = new Request(url);
 	var pms = Promise.resolve();
+	event.respondWith(
+		pms.then(function() {
+			return caches.match(req).then(function(resp) {
+				return (
+					resp ||
+					fetch(req).then(function(response) {
+						return caches.open(VERSION).then(function(cache) {
+							console.log("req: " + req.url);
+							cache.put(req, response.clone());
+							return response;
+						});
+					})
+				);
+			});
+		})
+	);
 	if (checkAt + UPDATE_FREQ < Date.now()) {
 		console.log(checkAt);
 		checkAt = Date.now();
@@ -82,20 +98,4 @@ self.addEventListener("fetch", function(event) {
 			})
 			.catch(console.error);
 	}
-	event.respondWith(
-		pms.then(function() {
-			return caches.match(req).then(function(resp) {
-				return (
-					resp ||
-					fetch(req).then(function(response) {
-						return caches.open(VERSION).then(function(cache) {
-							console.log("req: " + req.url);
-							cache.put(req, response.clone());
-							return response;
-						});
-					})
-				);
-			});
-		})
-	);
 });
