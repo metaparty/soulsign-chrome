@@ -299,6 +299,10 @@ export default function(task) {
 			if (/macintosh|mac os x/i.test(navigator.userAgent)) return inject.openWindow(url, dev, fn, preload);
 			return inject.openTab(url, dev, fn, preload);
 		},
+		showInNewTab(data) {
+			const html = `\`<div>${data}</div>\``;
+			chrome.tabs.create({url:`javascript:document.write(${html})`});
+		},
 	};
 	if (!grant.has("eval")) {
 		// 脚本中屏蔽以下内容
