@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.4] - 2022-02-22
+
+### 🎉 增加
+
+- 提供 `showInNewTab` API以支持打开新标签页面显示数据
+
+### 🛠 修复
+
+- 包含处理CSP错误的内容
+
 ## [2.4.3] - 2021-02-08
 
 ### 🛠 修复
